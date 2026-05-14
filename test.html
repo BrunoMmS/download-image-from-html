@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test</title>
+</head>
+<body>
+
+  <textarea id="html" rows="6" style="width:100%">
+    <html><body><div class="tarjeta" style="width:700px;height:700px;background:#e9e9e9;display:flex;align-items:center;justify-content:center;font-family:serif;"><h1>Prueba de tarjeta</h1></div></body></html>
+  </textarea>
+
+  <br>
+  <button onclick="descargar()">Descargar imagen</button>
+
+  <script>
+    async function descargar() {
+      const html = document.getElementById("html").value;
+
+      const formData = new FormData();
+      formData.append("html", html);
+      formData.append("selector", ".tarjeta");
+
+      const res = await fetch("http://localhost:8000/html-to-image/selector", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) {
+        alert("Error: " + await res.text());
+        return;
+      }
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "necrologica.png";
+      a.click();
+    }
+  </script>
+
+</body>
+</html>
