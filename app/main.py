@@ -4,7 +4,6 @@ import asyncio
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.core.config import ALLOWED_ORIGINS
 from app.middleware.logging import log_requests
 from app.api.routes.screenshot import router as screenshot_router
 
