@@ -12,6 +12,7 @@ async def log_requests(request: Request, call_next):
         f"{request.method} "
         f"{request.url.path} "
         f"{response.status_code} "
-        f"{duration}ms"
+        f"{duration}ms "
+        f"{response.headers.get('content-length', '-')}b"
     )
     return response
