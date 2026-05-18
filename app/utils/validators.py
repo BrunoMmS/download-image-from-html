@@ -13,7 +13,7 @@ def validate_html_size(html: str) -> None:
     if size > MAX_HTML_SIZE:
         raise HTTPException(
             status_code=413,
-            detail=f"HTML demasiado grande. Máximo: {MAX_HTML_SIZE} bytes",
+            detail=f"HTML demasiado grande. Máximo: {MAX_HTML_SIZE} bytes, ingresado: {size}",
         )
 
 
