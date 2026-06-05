@@ -1,11 +1,11 @@
 from os import environ
 
 
-MAX_HTML_SIZE = 2_000_000
+MAX_HTML_SIZE = 4_000_000
 MAX_WIDTH = 2000
 MAX_HEIGHT = 2000
 REQUEST_TIMEOUT = 5000
-ALLOWED_SELECTORS = {".tarjeta", "#card", ".ficha_dactilar"}
+ALLOWED_SELECTORS = {".tarjeta", "#card", ".ficha_dactilar", ".ficha-dactilar"}
 """ALLOWED_ORIGINS = [
     origin.strip()
     for origin in environ.get("ALLOW_ORIGINS", "").split(",")

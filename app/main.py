@@ -3,9 +3,17 @@ import asyncio
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.formparsers import MultiPartParser
 
 from app.middleware.logging import log_requests
 from app.api.routes.screenshot import router as screenshot_router
+
+_original_init = MultiPartParser.__init__
+
+def _patched_init(self, *args, max_part_size: int = 10 * 1024 * 1024, **kwargs):
+    _original_init(self, *args, max_part_size=max_part_size, **kwargs)
+
+MultiPartParser.__init__ = _patched_init
 
 
 def _ignore_connection_reset(loop, context):
