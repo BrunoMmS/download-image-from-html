@@ -85,6 +85,7 @@ class ScreenshotService:
                     "height": height,
                 },
                 java_script_enabled=False,
+                device_scale_factor=2,
             )
 
             page = await context.new_page()
@@ -140,6 +141,7 @@ class ScreenshotService:
                     "height": SELECTOR_VIEWPORT_SIZE,
                 },
                 java_script_enabled=False,
+                device_scale_factor=2,
             )
 
             page = await context.new_page()
