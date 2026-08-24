@@ -1,9 +1,11 @@
 import asyncio
-import sys
 
 from playwright.async_api import async_playwright
 
 from app.core.security import is_allowed_request
+
+_PLAYWRIGHT = None
+_BROWSER = None
 
 
 def _ignore_connection_reset(loop, context):
@@ -13,26 +15,34 @@ def _ignore_connection_reset(loop, context):
     loop.default_exception_handler(context)
 
 
-def run_async_in_thread(fn, *args, **kwargs):
-    if sys.platform == "win32":
-        loop = asyncio.ProactorEventLoop()
-    else:
-        loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    loop.set_exception_handler(_ignore_connection_reset)
+async def start_browser():
+    global _PLAYWRIGHT, _BROWSER
 
-    try:
-        return loop.run_until_complete(fn(*args, **kwargs))
-    finally:
-        try:
-            loop.run_until_complete(loop.shutdown_asyncgens())
-        except Exception:
-            pass
-        try:
-            loop.run_until_complete(loop.shutdown_default_executor())
-        except Exception:
-            pass
-        loop.close()
+    if _BROWSER is not None:
+        return _PLAYWRIGHT, _BROWSER
+
+    _PLAYWRIGHT = await async_playwright().start()
+    _BROWSER = await _PLAYWRIGHT.chromium.launch(
+        headless=True,
+        args=[
+            "--disable-dev-shm-usage",
+            "--disable-gpu",
+            "--disable-setuid-sandbox",
+        ],
+    )
+    return _PLAYWRIGHT, _BROWSER
+
+
+async def stop_browser():
+    global _PLAYWRIGHT, _BROWSER
+
+    if _BROWSER is not None:
+        await _BROWSER.close()
+        _BROWSER = None
+
+    if _PLAYWRIGHT is not None:
+        await _PLAYWRIGHT.stop()
+        _PLAYWRIGHT = None
 
 
 async def block_requests(route):
@@ -43,13 +53,4 @@ async def block_requests(route):
 
 
 async def create_browser():
-    p = await async_playwright().start()
-    browser = await p.chromium.launch(
-        headless=True,
-        args=[
-            "--disable-dev-shm-usage",
-            "--disable-gpu",
-            "--disable-setuid-sandbox",
-        ],
-    )
-    return p, browser
+    return await start_browser()

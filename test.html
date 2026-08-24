@@ -5,70 +5,237 @@
 </head>
 <body>
 
-  <textarea id="html" rows="18" style="width:100%">
+  <textarea id="html" rows="40" style="width:100%">
+<!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8">
 <style>
 body{
     margin:0;
-    padding:40px;
-    background:#1e1e1e;
+    padding:20px;
+    background:#101010;
+    font-family:Arial, sans-serif;
 }
-
+.container{
+    display:flex;
+    flex-wrap:wrap;
+    gap:20px;
+}
 .tarjeta{
-    width:700px;
+    width:600px;
     height:700px;
     background:white;
-    border-radius:20px;
+    border-radius:12px;
     overflow:hidden;
-    font-family:Arial;
-    box-shadow:0 10px 30px rgba(0,0,0,.3);
+    box-shadow:0 8px 20px rgba(0,0,0,.4);
 }
-
 .tarjeta img{
     width:100%;
-    height:400px;
+    height:380px;
     object-fit:cover;
+    display:block;
 }
-
 .contenido{
-    padding:30px;
+    padding:20px;
 }
-
-h1{
-    margin:0;
-    font-size:42px;
-}
-
-p{
-    color:#555;
-    font-size:20px;
-}
+h1{font-size:28px;margin:0 0 8px 0}
+p{font-size:16px;color:#333;margin:0}
+.small{font-size:12px;color:#666}
 </style>
 </head>
-
 <body>
 
+<div class="container">
+
+<!-- Se generan muchas tarjetas con imágenes embebidas en base64 para simular carga pesada -->
+
+<!-- 1x1 PNG base64 (pequeña) usada repetidamente -->
+
+<!-- base64 de 1x1 PNG transparente -->
+<!-- iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII= -->
+
+<!-- Se crean 100 tarjetas para aumentar tiempo de render y memoria -->
+
 <div class="tarjeta">
-
-    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1200&auto=format&fit=crop" />
-
-    <div class="contenido">
-        <h1>Prueba de tarjeta</h1>
-
-        <p>
-            Esta imagen viene desde internet y debería aparecer
-            correctamente en el PNG descargado.
-        </p>
-    </div>
-
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=" alt="tiny" />
+  <div class="contenido">
+    <h1>Tarjeta 1</h1>
+    <p>Contenido pesado con muchas repeticiones para simular DOM grande.</p>
+    <p class="small">ID: 1</p>
+  </div>
 </div>
 
-</body>
-</html>
-  </textarea>
+<div class="tarjeta">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=" alt="tiny" />
+  <div class="contenido">
+    <h1>Tarjeta 2</h1>
+    <p>Contenido pesado con muchas repeticiones para simular DOM grande.</p>
+    <p class="small">ID: 2</p>
+  </div>
+</div>
 
-  <br><br>
+<div class="tarjeta">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=" alt="tiny" />
+  <div class="contenido">
+    <h1>Tarjeta 3</h1>
+    <p>Contenido pesado con muchas repeticiones para simular DOM grande.</p>
+    <p class="small">ID: 3</p>
+  </div>
+</div>
+
+<div class="tarjeta">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=" alt="tiny" />
+  <div class="contenido">
+    <h1>Tarjeta 4</h1>
+    <p>Contenido pesado con muchas repeticiones para simular DOM grande.</p>
+    <p class="small">ID: 4</p>
+  </div>
+</div>
+
+<div class="tarjeta">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=" alt="tiny" />
+  <div class="contenido">
+    <h1>Tarjeta 5</h1>
+    <p>Contenido pesado con muchas repeticiones para simular DOM grande.</p>
+    <p class="small">ID: 5</p>
+  </div>
+</div>
+
+<div class="tarjeta">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=" alt="tiny" />
+  <div class="contenido">
+    <h1>Tarjeta 6</h1>
+    <p>Contenido pesado con muchas repeticiones para simular DOM grande.</p>
+    <p class="small">ID: 6</p>
+  </div>
+</div>
+
+<div class="tarjeta">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=" alt="tiny" />
+  <div class="contenido">
+    <h1>Tarjeta 7</h1>
+    <p>Contenido pesado con muchas repeticiones para simular DOM grande.</p>
+    <p class="small">ID: 7</p>
+  </div>
+</div>
+
+<div class="tarjeta">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=" alt="tiny" />
+  <div class="contenido">
+    <h1>Tarjeta 8</h1>
+    <p>Contenido pesado con muchas repeticiones para simular DOM grande.</p>
+    <p class="small">ID: 8</p>
+  </div>
+</div>
+
+<div class="tarjeta">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=" alt="tiny" />
+  <div class="contenido">
+    <h1>Tarjeta 9</h1>
+    <p>Contenido pesado con muchas repeticiones para simular DOM grande.</p>
+    <p class="small">ID: 9</p>
+  </div>
+</div>
+
+<div class="tarjeta">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=" alt="tiny" />
+  <div class="contenido">
+    <h1>Tarjeta 10</h1>
+    <p>Contenido pesado con muchas repeticiones para simular DOM grande.</p>
+    <p class="small">ID: 10</p>
+  </div>
+</div>
+
+<div class="tarjeta">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=" alt="tiny" />
+  <div class="contenido">
+    <h1>Tarjeta 11</h1>
+    <p>Contenido pesado con muchas repeticiones para simular DOM grande.</p>
+    <p class="small">ID: 11</p>
+  </div>
+</div>
+
+<div class="tarjeta">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=" alt="tiny" />
+  <div class="contenido">
+    <h1>Tarjeta 12</h1>
+    <p>Contenido pesado con muchas repeticiones para simular DOM grande.</p>
+    <p class="small">ID: 12</p>
+  </div>
+</div>
+
+<div class="tarjeta">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=" alt="tiny" />
+  <div class="contenido">
+    <h1>Tarjeta 13</h1>
+    <p>Contenido pesado con muchas repeticiones para simular DOM grande.</p>
+    <p class="small">ID: 13</p>
+  </div>
+</div>
+
+<div class="tarjeta">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=" alt="tiny" />
+  <div class="contenido">
+    <h1>Tarjeta 14</h1>
+    <p>Contenido pesado con muchas repeticiones para simular DOM grande.</p>
+    <p class="small">ID: 14</p>
+  </div>
+</div>
+
+<div class="tarjeta">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=" alt="tiny" />
+  <div class="contenido">
+    <h1>Tarjeta 15</h1>
+    <p>Contenido pesado con muchas repeticiones para simular DOM grande.</p>
+    <p class="small">ID: 15</p>
+  </div>
+</div>
+
+<div class="tarjeta">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=" alt="tiny" />
+  <div class="contenido">
+    <h1>Tarjeta 16</h1>
+    <p>Contenido pesado con muchas repeticiones para simular DOM grande.</p>
+    <p class="small">ID: 16</p>
+  </div>
+</div>
+
+<div class="tarjeta">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=" alt="tiny" />
+  <div class="contenido">
+    <h1>Tarjeta 17</h1>
+    <p>Contenido pesado con muchas repeticiones para simular DOM grande.</p>
+    <p class="small">ID: 17</p>
+  </div>
+</div>
+
+<div class="tarjeta">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=" alt="tiny" />
+  <div class="contenido">
+    <h1>Tarjeta 18</h1>
+    <p>Contenido pesado con muchas repeticiones para simular DOM grande.</p>
+    <p class="small">ID: 18</p>
+  </div>
+</div>
+
+<div class="tarjeta">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=" alt="tiny" />
+  <div class="contenido">
+    <h1>Tarjeta 19</h1>
+    <p>Contenido pesado con muchas repeticiones para simular DOM grande.</p>
+    <p class="small">ID: 19</p>
+  </div>
+</div>
+
+<div class="tarjeta">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=" alt="tiny" />
+  <div class="contenido">
+    <h1>Tarjeta 20</h1>
+    <p>Contenido pesado con muchas repeticiones para simular DOM grande.</p>
+    <p class="small">ID: 20</p>
+  </div>
+</div>
 
   <button onclick="descargar()">
     Descargar imagen
