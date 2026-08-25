@@ -7,3 +7,5 @@ class ErrorResponse(BaseModel):
 
 class HealthResponse(BaseModel):
     status: str
+    browser: str
+    cache: dict

@@ -1,15 +1,16 @@
 import asyncio
-import sys
 import concurrent.futures
-
+import logging
 import sys
 import time
-import concurrent.futures
 
 from fastapi import HTTPException
 from playwright.async_api import TimeoutError as PlaywrightTimeoutError
 
+from app.core.cache import ScreenshotCache
 from app.core.config import (
+    CACHE_MAX_SIZE,
+    CACHE_TTL_SECONDS,
     MAX_CONCURRENT_RENDERS,
     REQUEST_TIMEOUT,
     SELECTOR_VIEWPORT_SIZE,
@@ -18,11 +19,17 @@ from app.core.config import (
 
 from app.utils.playwright_runner import block_requests, create_browser, run_async_in_thread
 
+logger = logging.getLogger("app.screenshot")
+
 
 class ScreenshotService:
 
     def __init__(self):
         self._semaphore = asyncio.Semaphore(MAX_CONCURRENT_RENDERS)
+        self._cache = ScreenshotCache(
+            max_size=CACHE_MAX_SIZE,
+            ttl_seconds=CACHE_TTL_SECONDS,
+        )
         # On Windows, use a ThreadPoolExecutor + run_async_in_thread fallback because
         # the running asyncio loop may not support subprocesses required by Playwright.
         self._executor = None
@@ -56,11 +63,15 @@ class ScreenshotService:
         self,
         html: str,
         selector: str,
-    ) -> bytes | None:
+    ) -> tuple[bytes | None, bool]:
+        cached = self._cache.get(html, selector)
+        if cached is not None:
+            return cached, True
+
         async with self._semaphore:
             if self._executor is not None:
                 loop = asyncio.get_running_loop()
-                return await loop.run_in_executor(
+                result = await loop.run_in_executor(
                     self._executor,
                     lambda: run_async_in_thread(
                         self._capture_selector,
@@ -68,7 +79,12 @@ class ScreenshotService:
                         selector,
                     ),
                 )
-            return await self._capture_selector(html, selector)
+            else:
+                result = await self._capture_selector(html, selector)
+
+        if result is not None:
+            self._cache.set(html, selector, result)
+        return result, False
 
     async def _capture_page(
         self,
@@ -137,17 +153,13 @@ class ScreenshotService:
                 except Exception:
                     pass
             end_total = time.monotonic()
-            # Print phase timings (milliseconds)
-            try:
-                print(
-                    f"[screenshot] total={(end_total-start_total)*1000:.0f}ms "
-                    f"context={(t1-t0)*1000:.0f}ms "
-                    f"set_content={(t_after_set-t_before_set)*1000:.0f}ms "
-                    f"screenshot={(t_after_shot-t_before_shot)*1000:.0f}ms"
-                )
-            except Exception:
-                # Best-effort logging; ignore if timing vars missing
-                pass
+            logger.info(
+                "[screenshot] total=%.0fms context=%.0fms set_content=%.0fms screenshot=%.0fms",
+                (end_total - start_total) * 1000,
+                (t1 - t0) * 1000,
+                (t_after_set - t_before_set) * 1000,
+                (t_after_shot - t_before_shot) * 1000,
+            )
 
     async def _capture_selector(
         self,
@@ -218,12 +230,10 @@ class ScreenshotService:
                 except Exception:
                     pass
             end_total = time.monotonic()
-            try:
-                print(
-                    f"[screenshot-selector] total={(end_total-start_total)*1000:.0f}ms "
-                    f"context={(t1-t0)*1000:.0f}ms "
-                    f"set_content={(t_after_set-t_before_set)*1000:.0f}ms "
-                    f"screenshot={(t_after_shot-t_before_shot)*1000:.0f}ms"
-                )
-            except Exception:
-                pass
+            logger.info(
+                "[screenshot-selector] total=%.0fms context=%.0fms set_content=%.0fms screenshot=%.0fms",
+                (end_total - start_total) * 1000,
+                (t1 - t0) * 1000,
+                (t_after_set - t_before_set) * 1000,
+                (t_after_shot - t_before_shot) * 1000,
+            )

@@ -21,3 +21,6 @@ DEFAULT_HEIGHT = 800
 SELECTOR_VIEWPORT_SIZE = 800
 # Use device scale factor 1 to reduce raster work during testing
 DEVICE_SCALE_FACTOR = 1
+
+CACHE_MAX_SIZE = 32
+CACHE_TTL_SECONDS = 300

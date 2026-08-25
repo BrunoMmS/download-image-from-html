@@ -1,13 +1,21 @@
 from contextlib import asynccontextmanager
 import asyncio
+import logging
+import os
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.formparsers import MultiPartParser
 
 from app.api.routes.screenshot import router as screenshot_router
+from app.api.routes.health import router as health_router
 from app.middleware.logging import log_requests
 from app.utils.playwright_runner import start_browser, stop_browser
+
+logging.basicConfig(
+    level=os.environ.get("LOG_LEVEL", "INFO"),
+    format="%(asctime)s %(levelname)s %(message)s",
+)
 
 _original_init = MultiPartParser.__init__
 
@@ -49,3 +57,4 @@ app.add_middleware(
 app.middleware("http")(log_requests)
 
 app.include_router(screenshot_router)
+app.include_router(health_router)
