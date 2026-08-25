@@ -17,7 +17,7 @@ async def html_to_image_selector(request: HTMLRenderRequest):
     validate_html_size(request.html)
     validate_selector(selector)
     
-    screenshot = await service.screenshot_selector(request.html, selector)
+    screenshot, from_cache = await service.screenshot_selector(request.html, selector)
     if screenshot is None:
         return Response(
             content=b"Selector no encontrado",
@@ -27,6 +27,7 @@ async def html_to_image_selector(request: HTMLRenderRequest):
         content=screenshot,
         media_type="image/png",
         headers={
-            "Content-Disposition": "attachment; filename=selector.png"
+            "Content-Disposition": "attachment; filename=selector.png",
+            "X-Cache": "HIT" if from_cache else "MISS",
         },
     )

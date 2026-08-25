@@ -1,120 +1,127 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Test</title>
-</head>
-<body>
-
-  <textarea id="html" rows="18" style="width:100%">
-<html>
-<head>
-<style>
-body{
-    margin:0;
-    padding:40px;
-    background:#1e1e1e;
-}
-
-.tarjeta{
-    width:700px;
-    height:700px;
-    background:white;
-    border-radius:20px;
-    overflow:hidden;
-    font-family:Arial;
-    box-shadow:0 10px 30px rgba(0,0,0,.3);
-}
-
-.tarjeta img{
-    width:100%;
-    height:400px;
-    object-fit:cover;
-}
-
-.contenido{
-    padding:30px;
-}
-
-h1{
-    margin:0;
-    font-size:42px;
-}
-
-p{
-    color:#555;
-    font-size:20px;
-}
-</style>
-</head>
-
-<body>
-
-<div class="tarjeta">
-
-    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1200&auto=format&fit=crop" />
-
-    <div class="contenido">
-        <h1>Prueba de tarjeta</h1>
-
-        <p>
-            Esta imagen viene desde internet y debería aparecer
-            correctamente en el PNG descargado.
-        </p>
-    </div>
-
-</div>
-
-</body>
-</html>
-  </textarea>
-
-  <br><br>
-
-  <button onclick="descargar()">
-    Descargar imagen
-  </button>
-
-  <script>
-    async function descargar() {
-
-      const html = document.getElementById("html").value;
-
-      const formData = new FormData();
-
-      formData.append("html", html);
-      formData.append("selector", ".tarjeta");
-
-      const res = await fetch(
-        "http://localhost:8000/html-to-image/selector",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      if (!res.ok) {
-        alert(await res.text());
-        return;
-      }
-
-      const blob = await res.blob();
-
-      const url = URL.createObjectURL(blob);
-
-      const a = document.createElement("a");
-
-      a.href = url;
-      a.download = "tarjeta.png";
-
-      document.body.appendChild(a);
-
-      a.click();
-
-      a.remove();
-
-      URL.revokeObjectURL(url);
+  <meta charset="utf-8">
+  <style>
+    body {
+      margin: 0;
+      padding: 32px;
+      background: linear-gradient(135deg, #0f172a 0%, #111827 30%, #1e293b 100%);
+      font-family: Arial, sans-serif;
     }
-  </script>
-
+    .tarjeta {
+      width: 980px;
+      height: 1320px;
+      background: #fff;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px rgba(0,0,0,.35);
+      border: 1px solid rgba(255,255,255,.14);
+    }
+    .hero {
+      display: block;
+      width: 100%;
+      height: 520px;
+      object-fit: cover;
+      background: #dbeafe;
+    }
+    .header {
+      padding: 30px 30px 10px 30px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: #e0e7ff;
+      color: #3730a3;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    h1 {
+      margin: 18px 0 10px;
+      font-size: 52px;
+      line-height: 1.04;
+      color: #0f172a;
+    }
+    .subtitle {
+      font-size: 22px;
+      line-height: 1.5;
+      color: #475569;
+      margin: 0;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      padding: 18px 30px 0;
+    }
+    .grid img {
+      display: block;
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 18px;
+      background: #e0f2fe;
+    }
+    .content {
+      padding: 24px 30px 32px;
+    }
+    .content p {
+      margin: 0 0 18px;
+      font-size: 22px;
+      line-height: 1.7;
+      color: #1f2937;
+    }
+    .metrics {
+      display: flex;
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .metric {
+      flex: 1;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px 14px;
+      text-align: center;
+    }
+    .metric strong {
+      display: block;
+      font-size: 30px;
+      color: #0f172a;
+    }
+    .metric span {
+      font-size: 12px;
+      color: #64748b;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <div class="tarjeta">
+    <img class="hero" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjUyMCIgdmlld0JveD0iMCAwIDEwMDAgNTIwIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAiIHgyPSIxIiB5MT0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZjk3MzE2Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjN2MzYWVkIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzBlYTVlOSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjEwMDAiIGhlaWdodD0iNTIwIiBmaWxsPSJ1cmwoI2cpIi8+CiAgPGNpcmNsZSBjeD0iMTgwIiBjeT0iMTIwIiByPSIxMTAiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4xNSkiLz4KICA8Y2lyY2xlIGN4PSI4MjAiIGN5PSIxODAiIHI9IjE0MCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjEyKSIvPgogIDxyZWN0IHg9IjEyMCIgeT0iMTQwIiB3aWR0aD0iNzYwIiBoZWlnaHQ9IjIwMCIgcng9IjIyIiBmaWxsPSJyZ2JhKDE1LDIzLDQyLDAuMjIpIi8+CiAgPHJlY3QgeD0iMTUwIiB5PSIxNzAiIHdpZHRoPSI0MjAiIGhlaWdodD0iMTYiIHJ4PSI4IiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuNykiLz4KICA8cmVjdCB4PSIxNTAiIHk9IjIxMCIgd2lkdGg9IjMxMCIgaGVpZ2h0PSIxNiIgcng9IjgiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC41NSkiLz4KICA8cmVjdCB4PSIxNTAiIHk9IjI1MCIgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIxNiIgcng9IjgiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC40NSkiLz4KPC9zdmc+" alt="hero" />
+    <div class="header">
+      <span class="badge">Editorial + Strategy</span>
+      <h1>La historia visual de una marca que crece</h1>
+      <p class="subtitle">Esta tarjeta grande contiene imagenes embebidas, texto largo y bloques visuales para probar latencia, render y estabilidad del servicio.</p>
+    </div>
+    <div class="grid">
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MjAiIGhlaWdodD0iMjIwIiB2aWV3Qm94PSIwIDAgNTIwIDIyMCI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImEiIHgxPSIwIiB4Mj0iMSIgeTE9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzM4YmRmOCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMyMmM1NWUiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI1MjAiIGhlaWdodD0iMjIwIiBmaWxsPSIjMGYxNzJhIi8+CiAgPGNpcmNsZSBjeD0iMTIwIiBjeT0iMTEwIiByPSI3MCIgZmlsbD0idXJsKCNhKSIgb3BhY2l0eT0iMC45Ii8+CiAgPHJlY3QgeD0iMjMwIiB5PSI2MCIgd2lkdGg9IjIyMCIgaGVpZ2h0PSIxOCIgcng9IjgiIGZpbGw9IiNmOGZhZmMiIG9wYWNpdHk9IjAuOCIvPgogIDxyZWN0IHg9IjIzMCIgeT0iMTAwIiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4IiByeD0iOCIgZmlsbD0iI2UyZThmMCIgb3BhY2l0eT0iMC44Ii8+CiAgPHJlY3QgeD0iMjMwIiB5PSIxNDAiIHdpZHRoPSIxOTAiIGhlaWdodD0iMTgiIHJ4PSI4IiBmaWxsPSIjY2JkNWUxIiBvcGFjaXR5PSIwLjciLz4KPC9zdmc+" alt="img1" />
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MjAiIGhlaWdodD0iMjIwIiB2aWV3Qm94PSIwIDAgNTIwIDIyMCI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImIiIHgxPSIwIiB4Mj0iMSIgeTE9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y1OWUwYiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlZjQ0NDQiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI1MjAiIGhlaWdodD0iMjIwIiBmaWxsPSIjMTExODI3Ii8+CiAgPHJlY3QgeD0iMzAiIHk9IjMwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjE2MCIgcng9IjIwIiBmaWxsPSIjZjhmYWZjIiBvcGFjaXR5PSIwLjEyIi8+CiAgPHJlY3QgeD0iMTcwIiB5PSI0MCIgd2lkdGg9IjI4MCIgaGVpZ2h0PSIxMTAiIHJ4PSIxOCIgZmlsbD0idXJsKCNiKSIvPgogIDxyZWN0IHg9IjE3MCIgeT0iMTcwIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE4IiByeD0iOCIgZmlsbD0iI2YxZjVmOSIgb3BhY2l0eT0iMC43Ii8+CiAgPHJlY3QgeD0iMTcwIiB5PSIxNDAiIHdpZHRoPSIxNTAiIGhlaWdodD0iMTQiIHJ4PSI3IiBmaWxsPSIjZTJlOGYwIiBvcGFjaXR5PSIwLjc1Ii8+Cjwvc3ZnPg==" alt="img2" />
+    </div>
+    <div class="content">
+      <p>Cuando la marca atraviesa una etapa de crecimiento, la imagen debe comunicar más que un simple producto: debe contar una historia, reforzar identidad y transmitir confianza. En este ejemplo hemos creado una tarjeta visual grande con múltiples capas de contenido, varias imágenes embebidas y texto narrativo largo para medir rendimiento y render.</p>
+      <p>La idea es validar cómo se comporta la captura de pantalla cuando el DOM es más pesado, con más elementos visuales, más densidad y menos margen para errores. Eso ayuda a detectar si el cuello de botella está en la renderización, el rasterizado o la extracción del selector.</p>
+      <p>El contenido, la densidad visual y el tamaño del canvas hacen de esta tarjeta una prueba útil para ver latencia realista en escenarios de producción y confirmar que el servicio mantiene estabilidad bajo carga razonable.</p>
+      <div class="metrics">
+        <div class="metric"><strong>1.4s</strong><span>p95</span></div>
+        <div class="metric"><strong>980px</strong><span>ancho</span></div>
+        <div class="metric"><strong>3 img</strong><span>datos</span></div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
